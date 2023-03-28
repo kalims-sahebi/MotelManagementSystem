@@ -1,0 +1,101 @@
+﻿@model RoomListViewModel
+
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">لیست</li>
+            <li class="breadcrumb-item active" aria-current="page">اتاق</li>
+
+        </ol>
+    </div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong class="text-info">معلومات!</strong> @TempData["Message"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+}
+
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <h4 class="mb-2 page-title">لیست اتاق ها</h4>
+            <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <!-- table -->
+                            <table class="table datatables" id="dataTable-1">
+                                <thead>
+                                    <tr>
+                                        <th>شماره</th>
+                                        <th>شماره اتاق</th>
+                                        <th>وضعیت</th>
+                                        <th>موقعیت</th>
+                                        <th>تعداد تخت</th>
+                                        <th>کرایه برای یک شب</th>
+                                        <th>نوعیت اتاق</th>
+                                        <th>عملیات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int counter = 1; }
+                                    @foreach (var emp in Model.RoomList)
+                                    {
+                                        <tr>
+                                            <td>@counter</td>
+                                            <td>@emp.RoomNumber</td>
+                                            @if (emp.IsEmpty == 0)
+                                            {
+                                                <td>خالی</td>
+                                            }
+                                            else
+                                            {
+                                                <td>اختصاص شده</td>
+                                            }
+                                            <td>@emp.RoomLocation</td>
+                                            <td>@emp.BedCount</td>
+                                            <td>@emp.RentPerNight</td>
+                                            <td>@emp.RoomType</td>
+                                            <td>
+                                                <a asp-action="Edit" asp-controller="Room" asp-route-id="@emp.RoomId"><i class="fe fe-16 fe-edit" style="color:aqua"></i></a>
+                                                <a asp-action="Delete" asp-controller="Room" asp-route-id="@emp.RoomId" onclick="return confirm('حذف شود؟')"><i class="fe fe-16 fe-trash-2 text-danger"></i></a>
+                                            </td>
+                                        </tr>
+                                        { counter++; }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> <!-- simple table -->
+            </div> <!-- end section -->
+        </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+</div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+           
+        });
+    </script>
+
+    <script src='~/js/jquery.dataTables.min.js'></script>
+    <script src='~/js/dataTables.bootstrap4.min.js'></script>
+    <script>
+        $('#dataTable-1').DataTable(
+            {
+                autoWidth: true,
+                "lengthMenu": [
+                    [16, 32, 64, -1],
+                    [16, 32, 64, "All"]
+                ]
+            });
+    </script>
+}

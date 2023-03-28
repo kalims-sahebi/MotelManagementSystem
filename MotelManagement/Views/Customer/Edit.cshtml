@@ -1,0 +1,89 @@
+﻿@model CustomerModel
+
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">مهمان</li>
+            <li class="breadcrumb-item active" aria-current="page">ویرایش</li>
+
+        </ol>
+    </div>
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title"> ویرایش مهمان</strong>
+    </div>
+    <div class="card-body">
+        <form method="post" asp-action="Edit" asp-controller="Customer">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <input type="hidden" name="CustomerId" value="@Model.CustomerId" />
+                    <label asp-for="@Model.FullName"></label>
+                    <input asp-for="@Model.FullName" value="@Model.FullName" name="FullName" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="@Model.FullName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="@Model.Address"></label>
+                    <input asp-for="@Model.Address" value="@Model.Address" name="Address" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="@Model.Address" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="@Model.Phone"></label>
+                    <input asp-for="@Model.Phone" value="@Model.Phone" name="Phone" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="@Model.Phone" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="@Model.EntryDateString"></label>
+                    <input value="@Model.EntryDateString" name="EntryDateString" type="text" class="form-control shamsi-date-picker" autocomplete="off" />
+                    <span asp-validation-for="@Model.EntryDateString" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label asp-for="@Model.RoomId"></label>
+                    <input type="hidden" id="rID" value="@Model.RoomId" />
+                    <select asp-items="@Model.RoomList" name="RoomId" class="form-control select2" id="simple-select2"></select>
+                    <span asp-validation-for="@Model.RoomId" class="text-danger"></span>
+                </div>
+            </div>
+            <div asp-validation-summary="All" class="text-danger">
+
+            </div>
+            <button type="submit" class="btn btn-primary fe fe-24 fe-save"> ثبت</button>
+            <a asp-action="List" asp-controller="Customer" id="cancel" class="btn btn-danger fe fe-16 fe-x-square"> لغو</a>
+        </form>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("input.shamsi-date-picker").persianDatepicker({ showGregorianDate: !1 });
+        });
+
+
+        $("a#cancel").click(function () {
+                var o = {
+                    RoomId: parseInt($("#rID").val())
+            };
+            var a = JSON.stringify(o);
+                $.ajax({
+                    url: "@Url.Action("SetRoomFull", "Customer")",
+                    type: "POST",
+                    cache: false,
+                    contentType: "application/json; charset=utf-8",
+                    data: a,
+                    success: function (data) {
+
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+
+                });
+        });
+
+
+    </script>
+}

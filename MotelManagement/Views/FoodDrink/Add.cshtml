@@ -1,0 +1,51 @@
+﻿@model FoodDrinkModel 
+<div class="slim-pageheader pd-10">
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item active">نوشیدنی و غذا</li>
+        <li class="breadcrumb-item active" aria-current="page">افزودن</li>
+    </ol>
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong class="text-info">معلومات!</strong> @TempData["Message"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">نوشیدنی و غذا جدید</strong>
+    </div>
+    <div class="card-body">
+        <form method="post" asp-action="Add" asp-controller="FoodDrink">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.Name"></label>
+                    <input asp-for="@Model.Name" name="Name" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="@Model.Price"></label>
+                    <input asp-for="@Model.Price" name="Price" class="form-control" />
+                    <span asp-validation-for="@Model.Price" class="text-danger"></span>
+                </div>
+                <div class="col-3">
+                    <label asp-for="@Model.Type"></label>
+                    <select asp-for="@Model.Type" name="Type" class="form-control" id="inout">
+                        <option selected disabled>انتخاب کنبد</option>
+                        <option value="1">غذا</option>
+                        <option value="2">نوشیدنی</option>
+                    </select>
+                    <span asp-validation-for="@Model.Type" class="text-danger"></span>
+                </div>
+            </div>
+           
+            <button type="submit" class="btn btn-primary fe fe-24 fe-save"> ثبت</button>
+            <a asp-action="Index" asp-controller="Home" class="btn btn-danger fe fe-16 fe-x-square"> لغو</a>
+        </form>
+    </div>
+</div>

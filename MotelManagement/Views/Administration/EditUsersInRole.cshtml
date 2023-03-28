@@ -1,0 +1,49 @@
+﻿@model List<UserRoleViewModel>
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">مدیریت</li>
+            <li class="breadcrumb-item active" aria-current="page">ویرایش یوزر ها در رول</li>
+
+        </ol>
+    </div>
+
+    @{
+        var RoleId = ViewBag.RoleId;
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>معلومات!</strong> @TempData["ErrorMessage"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    }
+
+    <form method="post" asp-action="EditUsersInRole" asp-controller="Administration">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    افزودن و حذف یوزر از رول @ViewBag.RoleName
+                </h2>
+            </div>
+            <div class="card-body">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <div class="form-check m-1">
+                        <input type="hidden" asp-for="@Model[i].UserId" />
+                        <input type="hidden" asp-for="@Model[i].UserName" />
+                        <input asp-for="@Model[i].IsSelected" class="form-check-input " />
+                        <label class="form-check-label" asp-for="@Model[i].IsSelected">
+                            @Model[i].UserName
+                        </label>
+                    </div>
+                }
+            </div>
+            <div class="card-footer">
+                <input type="submit" class="btn btn-primary" value="ثبت" style="width:auto" />
+                <a asp-action="ListRoles" asp-controller="Administration" class="btn btn-primary" style="width:auto">لغو</a>
+            </div>
+        </div>
+    </form>

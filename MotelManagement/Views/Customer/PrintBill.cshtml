@@ -1,0 +1,122 @@
+﻿@model BillViewModel
+
+<div class="slim-pageheader pd-10">
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item active">مهمان</li>
+        <li class="breadcrumb-item active" aria-current="page">چاپ بل</li>
+
+    </ol>
+</div>
+
+
+<div id="print" class="col-12 col-lg-10 col-xl-8" style="border:1px solid white">
+    <div class="card shadow">
+        <div class="card-body p-lg-4">
+            <div class="row">
+                <div class="col-12 text-center mb-1 logo">
+                    <img src="~/assets/Logo/logo-sm-02.png" class="logo" width="200">
+                    <h2 class="mb-0 text-uppercase">فاکتور</h2>
+                    <hr />
+                </div>
+            </div> <!-- /.row -->
+            <div class="row ">
+                <div class="col-6 custname">
+                    <p>نام مشتری:@TempData["Message"]</p>
+                </div>
+                <div class="col-6 text-right billdate">
+                    <p>تاریخ صدور فاکتور: @DateTime.Now.ToShortDateString()</p>
+                </div>
+            </div>
+            <table border="1" class="table table-borderless table-striped tstayle" style="width:100%">
+                <thead>
+                    <tr>
+                        <th scope="col">شماره</th>
+                        <th scope="col">تفصیلات</th>
+                        <th scope="col" class="text-right">فی</th>
+                        <th scope="col" class="text-right">تعداد</th>
+                        <th scope="col" class="text-right">کل</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>@Model.Room.RoomNumber اتاق</td>
+                        <td class="text-right">@Model.Room.Price</td>
+                        <td class="text-right">@Model.Room.Days روز</td>
+                        <td class="text-right">@Model.Room.TotalRent</td>
+                    </tr>
+                    @{ 
+                        int counter = 2;
+                        int Gtotal = @Model.Room.TotalRent;
+                     }
+                    @foreach (var item in Model.FoodBill)
+                    {
+                        <tr>
+                            <th scope="row">@counter</th>
+                            <td>@item.Description</td>
+                            <td class="text-right">@item.Price</td>
+                            <td class="text-right">@item.qty</td>
+                            <td class="text-right">@item.total</td>
+                        </tr>
+                        Gtotal += item.total;
+                        counter++;
+                    }
+                    @foreach (var item in Model.DrinkBill)
+                    {
+                        <tr>
+                            <th scope="row">@counter</th>
+                            <td>@item.Description</td>
+                            <td class="text-right">@item.Price</td>
+                            <td class="text-right">@item.qty</td>
+                            <td class="text-right">@item.total</td>
+                        </tr>
+                        Gtotal += item.total;
+                        counter++;
+                    }
+                </tbody>
+                <tfoot>
+                    <tr style="color:red">
+                        <th colspan="4">جمع کل</th>
+                        <th class="text-right">@Gtotal</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div> <!-- /.card-body -->
+    </div> <!-- /.card -->
+</div>
+<button class="btn btn-primary fe fe-16 fe-printer mt-1" onclick="PrintElem('print')"> چاپ</button>
+
+<a asp-action="List" asp-controller="Customer" class="btn btn-secondary mt-1"><i class="fe fe-16 fe-corner-up-left">  برگشت</i></a>
+
+@section Scripts{
+    <script>
+
+        $(document).ready(function () {
+
+
+        });
+
+        function PrintElem(elem) {
+            var data = document.getElementById(elem).innerHTML;
+            Popup($(data).html());
+        }
+
+        function Popup(data) {
+            var mywindow = window.open('', 'new div', 'height=700,width=900');
+            mywindow.document.write('<html><head><title>PrintBill</title>');
+            mywindow.document.write('<style>body{}.logo{text-align:center}.custname{text-align:right;direction:ltr;}.tstayle{ direction:rtl;}td{text-align:center}tr:nth-child(odd){background:cornflowerblue}tr:nth-child(even){background:deepskyblue}</style>');
+            mywindow.document.write('</head><body >');
+            mywindow.document.write(data);
+            mywindow.document.write('</body></html>');
+
+            mywindow.print();
+            mywindow.close();
+            mywindow.focus();
+            setTimeout(function () { mywindow.print(); }, 1000);
+            mywindow.close();
+
+            return true;
+        }
+       
+    </script>
+}

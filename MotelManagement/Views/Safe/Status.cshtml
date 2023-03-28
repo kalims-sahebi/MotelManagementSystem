@@ -1,0 +1,72 @@
+﻿@model SafeBalanceViewModel
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">صندق پول</li>
+            <li class="breadcrumb-item active">وضعیت</li>
+        </ol>
+    </div>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong class="text-info">معلومات!</strong> @TempData["Message"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">توازن صندق پول نقد</h3>
+    </div>
+    <div class="card-body">
+        <form method="post" asp-action="Status" asp-controller="Safe">
+            <div class="form-row">
+                <div class="col-3">
+                    <label>افزایش / کاهش</label>
+                    <select class="form-control" id="inout">
+                        <option value="1">افزایش</option>
+                        <option value="2">کاهش</option>
+                    </select>
+                </div>
+                <div class="col-3" id="MoneyIn">
+                    <label>مبلغ</label>
+                    <input name="MoneyIn" class="form-control" autocomplete="off" required />
+                </div>
+                <div class="col-3" style="display:none" id="MoneyOut">
+                    <label>مبلغ</label>
+                    <input name="MoneyOut" class="form-control" autocomplete="off" />
+                </div>
+                <div class="col-6 mt-4">
+                    <h3>
+                        موجودی پول نقد:@Model.Total
+                    </h3>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" asp-action="Status" asp-controller="Safe" class="btn btn-primary fe fe-16 fe-save"> ثبت</button>
+                <a asp-action="Index" asp-controller="Home" class="btn btn-danger fe fe-16 fe-x-square"> لغو</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            $("#inout").change(function () {
+                if ($("#inout").val() == 1) {
+                    $("#MoneyIn").show();
+                    $("#MoneyOut").hide();
+                }
+                else {
+                    $("#MoneyIn").hide();
+                    $("#MoneyOut").show();
+                }
+            });
+        });
+    </script>
+}

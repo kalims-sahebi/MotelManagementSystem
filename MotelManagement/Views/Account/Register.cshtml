@@ -1,0 +1,125 @@
+﻿@model RegisterViewModel
+
+
+@{ Layout = null; }
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title>راجستر</title>
+    <!-- Simple bar CSS -->
+    <link rel="stylesheet" href="~/css/simplebar.css">
+    <!-- Icons CSS -->
+    <link rel="stylesheet" href="~/css/feather.css">
+    <!-- Date Range Picker CSS -->
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link href="~/css/Custome.css" rel="stylesheet" />
+    <!-- App CSS -->
+    <link rel="stylesheet" href="~/css/app-light.css" id="lightTheme" disabled>
+    <link rel="stylesheet" href="~/css/app-dark.css" id="darkTheme">
+</head>
+<body class="dark rtl ">
+    <form method="post" asp-action="Register" asp-controller="Account">
+        <div class="SignUpDiv" style="margin:50px auto">
+            <div class="mx-auto text-center my-4">
+                <h1>
+                    <img src="~/assets/Logo/logo-sm-02.png" />
+                </h1>
+                <h2 class="my-3">راجستر یوزر</h2>
+            </div>
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong class="text-info">خطا!</strong> @TempData["ErrorMessage"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+             }
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="firstname">نام کامل</label>
+                    <input asp-for="FullName" name="FullName" class="form-control" />
+                    <span asp-validation-for="FullName" style="color:red"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>ایمیل</label>
+                    <input asp-for="Email" name="Email" class="form-control" />
+                    <span asp-validation-for="Email" style="color:red"></span>
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="firstname">نام یوزر</label>
+                    <input asp-for="UserName" name="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" style="color:red"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="Role" >رول</label>
+                    <select class="form-control" asp-for="Role" name="Role">
+                        <option selected disabled >انتخاب کنید</option>
+                        <option value="1">منشی</option>
+                        <option value="2">مدیر</option>
+                    </select>
+                    <span asp-validation-for="Role" style="color:red"></span>
+                </div>
+
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>رمز</label>
+                    <input asp-for="Password" name="Password" autocomplete="off" class="form-control">
+                    <span asp-validation-for="Password" style="color:red"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="lastname">تکرار رمز</label>
+                    <input asp-for="ConfirmPassword" name="ConfirmPassword" autocomplete="off" class="form-control">
+                    <span asp-validation-for="ConfirmPassword" style="color:red"></span>
+                </div>
+            </div>
+            <div class="mx-auto text-center">
+                <button class="btn mb-2 btn-primary" type="submit">ثبت نام</button>
+            </div>
+        </div>
+
+    </form>
+
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/moment.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/simplebar.min.js"></script>
+    <script src='~/js/daterangepicker.js'></script>
+    <script src='~/js/jquery.stickOnScroll.js'></script>
+    <script src="~/js/tinycolor-min.js"></script>
+    <script src="~/js/config.js"></script>
+    <script src="~/js/apps.js"></script>
+
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-56159088-1');
+    </script>
+    @section scripts{
+
+        <script>
+
+        </script>
+    }
+</body>
+</html>

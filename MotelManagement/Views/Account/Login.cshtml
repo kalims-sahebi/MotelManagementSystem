@@ -1,0 +1,81 @@
+﻿@model LoginViewModel
+
+@{ Layout = null; }
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title>ورود</title>
+    <link rel="stylesheet" href="~/css/simplebar.css">
+    <link rel="stylesheet" href="~/css/feather.css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <link rel="stylesheet" href="~/css/app-light.css" id="lightTheme" disabled>
+    <link rel="stylesheet" href="~/css/app-dark.css" id="darkTheme">
+</head>
+<body class="dark rtl">
+
+<div class="SignUpDiv">
+    <form method="post" asp-controller="Account" asp-action="Login" class="col-lg-3 col-md-4 col-10 mx-auto text-center">
+        <div class="mx-auto text-center my-4">
+            <h1>
+                <img src="~/assets/Logo/logo-sm-02.png" />
+            </h1>
+            <h2 class="my-3">ورود</h2>
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong class="text-info">خطا!</strong> @TempData["ErrorMessage"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                }
+        </div>
+        <div class="form-group">
+            <label class="sr-only">یوزر نیم</label>
+            <input asp-for="UserName" name="UserName" class="form-control form-control-lg" placeholder="یوزر نیم" autofocus="">
+            <span asp-validation-for="UserName" style="color:red"></span>
+        </div>
+        <div class="form-group">
+            <label class="sr-only">رمز</label>
+            <input type="password" id="inputPassword" asp-for="Password" name="Password" class="form-control form-control-lg" placeholder="رمز">
+            <span asp-validation-for="Password" style="color:red"></span>
+        </div>
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> مرا به خاطر بسپار
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">ورود</button>
+    </form>
+</div>
+
+
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/moment.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/simplebar.min.js"></script>
+    <script src='~/js/daterangepicker.js'></script>
+    <script src='~/js/jquery.stickOnScroll.js'></script>
+    <script src="~/js/tinycolor-min.js"></script>
+    <script src="~/js/config.js"></script>
+    <script src="~/js/apps.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-56159088-1');</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+﻿@model ConferenceBillViewModel
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">اتاق کنفرانس</li>
+            <li class="breadcrumb-item active" aria-current="page">چاپ بل</li>
+
+        </ol>
+    </div>
+
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong class="text-info">معلومات!</strong> @TempData["msg"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    }
+
+
+    <div id="print" class="col-12 col-lg-10 col-xl-8" style="border:1px solid white">
+        <div class="card shadow">
+            <div class="card-body p-lg-4">
+                <div class="row">
+                    <div class="col-12 text-center mb-1 logo">
+                        <img src="~/assets/Logo/logo-sm-02.png" class="logo" width="200">
+                        <h2 class="mb-0 text-uppercase">فاکتور</h2>
+                        <hr />
+                    </div>
+                </div> <!-- /.row -->
+                <div class="row ">
+                    <div class="col-6 custname">
+                        <p>نام موسسه:@TempData["Message"]</p>
+                    </div>
+                    <div class="col-6 text-right billdate">
+                        <p>تاریخ صدور فاکتور: @DateTime.Now.ToShortDateString()</p>
+                    </div>
+                </div>
+                <table border="1" class="table table-borderless table-striped tstayle" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th scope="col">شماره</th>
+                            <th scope="col">تفصیلات</th>
+                            <th scope="col" class="text-right">زمان شروع</th>
+                            <th scope="col" class="text-right">زمان ختم</th>
+                            <th scope="col" class="text-right">مصارف قهوه</th>
+                            <th scope="col" class="text-right">کرایه فی ساعت</th>
+                            <th scope="col" class="text-right">ساعات</th>
+                            <th scope="col" class="text-right">کل</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>کرایه اتاق کنفرانس</td>
+                            <td class="text-right">@Model.StartTime</td>
+                            <td class="text-right">@Model.EndTime</td>
+                            <td class="text-right">@Model.RefreshmentCost</td>
+                            <td class="text-right">@Model.RentPerHour</td>
+                            <td class="text-right">@TempData["duration"]</td>
+                            <td class="text-right">@Model.total</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> <!-- /.card-body -->
+        </div> <!-- /.card -->
+    </div>
+    <button class="btn btn-primary fe fe-16 fe-printer mt-1" onclick="PrintElem('print')"> چاپ</button>
+
+    <a asp-action="List" asp-controller="ConferenceRoom" class="btn btn-secondary mt-1"><i class="fe fe-16 fe-corner-up-left">  برگشت</i></a>
+
+    @section Scripts{
+        <script>
+
+            $(document).ready(function () {
+
+
+            });
+
+            function PrintElem(elem) {
+                var data = document.getElementById(elem).innerHTML;
+                Popup($(data).html());
+            }
+
+            function Popup(data) {
+                var mywindow = window.open('', 'new div', 'height=700,width=900');
+                mywindow.document.write('<html><head><title>PrintBill</title>');
+                mywindow.document.write('<style>body{}.logo{text-align:center}.custname{text-align:right;direction:ltr;}.tstayle{ direction:rtl;}td{text-align:center}tr:nth-child(odd){background:cornflowerblue}tr:nth-child(even){background:deepskyblue}</style>');
+                mywindow.document.write('</head><body >');
+                mywindow.document.write(data);
+                mywindow.document.write('</body></html>');
+
+                mywindow.print();
+                mywindow.close();
+                mywindow.focus();
+                setTimeout(function () { mywindow.print(); }, 1000);
+                mywindow.close();
+
+                return true;
+            }
+
+        </script>
+    }

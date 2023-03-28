@@ -1,0 +1,236 @@
+﻿@model CustomerViewModel
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">مهمان</li>
+            <li class="breadcrumb-item active" aria-current="page">لیست</li>
+
+        </ol>
+    </div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong class="text-info">معلومات!</strong> @TempData["Message"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+}
+
+@if (TempData["fullname"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong class="text-info">معلومات!</strong>یک سفارش @TempData["fullname"] حذف شد
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+}
+
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <h4 class="mb-2 page-title">لیست مهمان ها</h4>
+        <div class="col-12">
+            <div class="btn-group" role="group" >
+                <a class="btn btn-secondary" asp-action="List" asp-controller="Customer"><span>موجود</span></a>
+                <a class="btn btn-secondary" asp-action="ListExit" asp-controller="Customer"><span>خارج</span></a>
+                <a class="btn btn-secondary" asp-action="Add" asp-controller="Customer"><span class="ml-1 item-text fa fa-lightbulb-o"><span class="fa fa-plus"></span> جدید</span></a>
+            </div>
+
+            <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <!-- table -->
+                            <table class="table datatables" id="dataTable-1">
+                                <thead>
+                                    <tr>
+                                        <th>شماره</th>
+                                        <th>نام کامل</th>
+                                        <th>شماره تماس</th>
+                                        <th>تاریخ ورود</th>
+                                        <th>خروج</th>
+                                        <th>شماره اتاق</th>
+                                        <th>سفارشات</th>
+                                        <th>عملیات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int counter = 1; }
+                                    @foreach (var item in Model.CustomerList)
+                                    {
+                                        <tr>
+                                            <td style="display:none">@item.CustomerId</td>
+                                            <td>@counter</td>
+                                            <td>@item.FullName</td>
+                                            <td>@item.Phone</td>
+                                            <td>@(new ShamisDateTime.PersianDateTime(item.EntryDate).ToShortDateString())</td>
+                                            @if (@item.IsOut == 1)
+                                            {
+                                                <td>بلی</td>
+                                            }
+                                            else
+                                            {
+                                                <td>خیر</td>
+                                            }
+                                            <td>@item.RoomNumber</td>
+
+                                            @*<td>@item.CustomerId</td>*@
+                                            <td>
+                                                <a href="#" title="افزودن سفارش" data-toggle="modal" data-target="#OrderModal"><i class="fe fe-16 fe-plus-circle myLink" style="color:aqua"></i></a>
+                                                <a asp-action="OrderList" asp-controller="Customer" asp-route-id="@item.CustomerId" title="نمایش سفارش"><i class="fe fe-16 fe-eye" style="color:aqua"></i></a>
+                                            </td>
+                                            <td>
+                                                <a asp-action="Edit" asp-controller="Customer" asp-route-id="@item.CustomerId" title="ویرایش"><i class="fe fe-16 fe-edit" style="color:aqua"></i></a>
+                                                <a asp-action="PrintBill" asp-controller="Customer" asp-route-id="@item.CustomerId" title="چاپ فاکتور"><i class="fe fe-16 fe-printer" style="color:aqua"></i></a>
+                                                <a asp-action="Delete" asp-controller="Customer" asp-route-id="@item.CustomerId" title="حذف" onclick="return confirm('حذف شود ؟ سفارشات این مهمان خودکار حذف خواهد شد')"><i class="fe fe-16 fe-trash-2 text-danger"></i></a>
+                                            </td>
+                                            @{counter++; }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> <!-- simple table -->
+            </div> <!-- end section -->
+        </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+    @await Html.PartialAsync("AddOrder")
+</div>
+
+@section scripts{
+    <script>
+        var CustId;
+        $('#dataTable-1').find('tr').click(function () {
+            CustId = parseInt($(this).find('td:first').text());
+
+            @*alert('CustomerId:' + CustId);*@
+
+            @*alert('you click row' + ($(this).index()+1));*@
+        });
+
+
+        $("button#btnAddOrder").click(function () {
+                var o = {
+                    FoodId: parseInt($("#FoodId").val()),
+                    FoodCount: parseInt($("#FoodCount").val()),
+                    DrinkCount: parseInt($("#DrinkCount").val()),
+                    DrinkId: parseInt($("#DrinkId").val()),
+                    CustomerId: CustId
+            };
+            var a = JSON.stringify(o);
+                $.ajax({
+                    url: "@Url.Action("AddOrder", "Customer")",
+                    type: "POST",
+                    cache: false,
+                    contentType: "application/json; charset=utf-8",
+                    data: a,
+                    success: function (data) {
+
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+
+                });
+        });
+
+         $("button#btnNewFood").click(function () {
+                var o = {
+                    Food: $("#Food").val(),
+                    Price: parseInt($("#Price").val())
+                };
+                var a = JSON.stringify(o);
+                $.ajax({
+                    url: "@Url.Action("AddNewFood", "Customer")",
+                    type: "POST",
+                    cache: false,
+                    contentType: "application/json; charset=utf-8",
+                    data: a,
+                    success: function (data) {
+                         $.ajax({
+                            url: "@Url.Action("GetFoodList", "Customer")",
+                            type: "POST",
+                            cache: false,
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                var FoodSelect = $('#FoodId');
+                                if (data != null && !jQuery.isEmptyObject(data)) {
+                                    FoodSelect.empty();
+                                    $.each(data, function (index, field) {
+                                        FoodSelect.append("<option value='" + field.value + "'>" + field.text + "</option>");
+                                    });
+                                };
+                            },
+                            error: function (errormessage) {
+                                alert(errormessage.responseText);
+                            }
+                        });
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+
+                });
+         });
+
+        $("button#btnNewDrink").click(function () {
+            var o = {
+                Drink: $("#Drink").val(),
+                DPrice: parseInt($("#DPrice").val())
+            };
+
+            var a = JSON.stringify(o);
+            $.ajax({
+                url: "@Url.Action("AddNewDrink", "Customer")",
+                type: "POST",
+                cache: false,
+                contentType: "application/json; charset=utf-8",
+                data: a,
+                success: function (data) {
+                       $.ajax({
+                            url: "@Url.Action("GetDrinkList", "Customer")",
+                            type: "POST",
+                            cache: false,
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                var DrinkSelect = $('#DrinkId');
+                                if (data != null && !jQuery.isEmptyObject(data)) {
+                                    DrinkSelect.empty();
+                                    $.each(data, function (index, field) {
+                                        DrinkSelect.append("<option value='" + field.value + "'>" + field.text + "</option>");
+                                    });
+                                };
+                            },
+                            error: function (errormessage) {
+                                alert(errormessage.responseText);
+                            }
+                        });
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+
+            });
+        });
+
+        $(document).ready(function () {
+            $("input.shamsi-date-picker").persianDatepicker({ showGregorianDate: !1 });
+
+            $('#dataTable-1').DataTable(
+                {
+                    autoWidth: true,
+                    "lengthMenu": [
+                        [16, 32, 64, -1],
+                        [16, 32, 64, "All"]
+                    ]
+                }
+            );
+        });
+    </script>
+    <script src='~/js/jquery.dataTables.min.js'></script>
+    <script src='~/js/dataTables.bootstrap4.min.js'></script>
+}

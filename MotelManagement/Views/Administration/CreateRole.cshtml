@@ -1,0 +1,28 @@
+﻿@model CreateRoleViewModel
+
+
+<h1>ایجاد رول جدید</h1>
+@if (TempData["ErrorMessage"] != null)
+{
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>خطا!</strong> @TempData["ErrorMessage"]
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+</div>
+}
+<form method="post" asp-action="CreateRole" asp-controller="Administration">
+
+    <div class="row">
+        <div class="col-md-4">
+            <label asp-for="RoleName"></label>
+            <input asp-for="RoleName" name="RoleName" class="form-control" />
+            <span asp-validation-for="RoleName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 mt-2">
+            <button type="submit" class="btn btn-primary form-control">ثبت</button>
+        </div>
+    </div>
+</form>

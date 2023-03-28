@@ -1,0 +1,44 @@
+﻿@model CustomerViewModel
+
+
+
+
+
+
+<div class="card shadow">
+    <div class="card-body">
+        <div class="modal fade" id="NewDrinkModal" tabindex="-1" role="dialog" aria-labelledby="varyModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="varyModalLabel">افزودن نوشیدنی جدید</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label asp-for="@Model.Drink"></label>
+                                <input asp-for="@Model.Drink" name="Drink" id="Drink" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="@Model.Drink" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="@Model.DPrice"></label>
+                                <input asp-for="@Model.DPrice" name="DPrice" id="DPrice" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="@Model.DPrice" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div asp-validation-summary="All" class="text-danger">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="direction:ltr">
+                        <button type="button" class="btn btn-danger fe fe-16 fe-x-square" data-dismiss="modal"> لغو</button>
+                        <button type="button" id="btnNewDrink" class="btn btn-primary fe fe-24 fe-save mr-1" data-dismiss="modal"> ثبت</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

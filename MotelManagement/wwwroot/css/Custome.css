@@ -1,0 +1,38 @@
+﻿a {
+    text-decoration: none;
+}
+
+
+.SignUpDiv
+{
+    margin:15% auto;
+    width:40%;
+    border:1px solid gray;
+    padding:15px;
+}
+
+.text-danger
+{
+    color:red
+}
+* {
+    font-family: Vazir;
+}
+
+th{
+    font:bold;
+}
+
+
+.lteColor {
+    color: aqua;
+}
+
+.myborder{
+    border: 1px solid;
+    border-color:yellow;
+}
+
+.Handpointer{
+    
+}

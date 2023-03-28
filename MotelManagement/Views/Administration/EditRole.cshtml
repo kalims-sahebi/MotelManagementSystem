@@ -1,0 +1,67 @@
+﻿@model EditRoleViewModel
+
+<div class="slim-pageheader pd-10">
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item active">مدیریت</li>
+        <li class="breadcrumb-item active" aria-current="page">ویرایش رول</li>
+
+    </ol>
+</div>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>معلومات!</strong> @TempData["ErrorMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+}
+
+<h1>ویرایش رول</h1>
+
+<form method="post" asp-action="EditRole" asp-controller="Administration" class="mt-2">
+    <div class="form-group row">
+        <label asp-for="Id" class="col-sm-1 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Id" disabled class="form-control" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="RoleName" class="col-sm-1 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="RoleName" class="form-control" />
+            <span asp-validation-for="RoleName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary fe fe-24 fe-save"> ثبت</button>
+            <a asp-action="ListRoles" asp-controller="Administration" class="btn btn-danger fe fe-16 fe-x-square"> لغو</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>تمام یوزر ها در این رول</h3>
+        </div>
+        <div class="card-body">
+            @if (Model.Users.Count > 0)
+            {
+                foreach (var users in Model.Users)
+                {
+                    <h5 class="card-title">@users</h5>
+                }
+            }
+            else
+            {
+                <h5 class="card-title">هیچ یوزر موجود نیست</h5>
+            }
+
+        </div>
+        <div class="card-for">
+            <a asp-action="EditUsersInRole" asp-controller="Administration" asp-route-id="@Model.Id" class="btn btn-primary fe fe-24 fe-plus" style="width:auto">افزودن و حذف </a>
+        </div>
+    </div>
+
+</form>

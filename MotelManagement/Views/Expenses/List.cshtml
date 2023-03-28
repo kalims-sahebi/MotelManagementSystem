@@ -1,0 +1,51 @@
+﻿@model ExpensesListViewModel
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">مصارف</li>
+            <li class="breadcrumb-item active" aria-current="page">لیست</li>
+
+        </ol>
+    </div>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong class="text-info">معلومات!</strong> @TempData["Message"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+}
+
+
+
+<div class="card-body">
+    <h5 class="card-title">لیست مصارف</h5>
+    <table class="table table-hover table-hover">
+        <thead>
+            <tr>
+                <th>شماره</th>
+                <th> تفصیلات</th>
+                <th>مقدار</th>
+                <th>تاریخ</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int counter = 1; }
+            @foreach (var emp in Model.ExpensesList)
+            {
+                <tr>
+                    <td>@counter</td>
+                    <td>@emp.Description</td>
+                    <td>@emp.Amount</td>
+                    <td>@(new ShamisDateTime.PersianDateTime(emp.Date).ToShortDateString())</td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="Expenses" asp-route-id="@emp.ExpensesId"><i class="fe fe-16 fe-edit"></i></a>
+                        <a asp-action="Delete" asp-controller="Expenses" asp-route-id="@emp.ExpensesId" onclick="return confirm('مصارف حذف شود؟')"><i class="fe fe-16 fe-trash-2 text-danger"></i></a>
+                    </td>
+                </tr>
+                counter++;
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,61 @@
+﻿@model ConferenceListViewModel
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">اتاق کنفرانس</li>
+            <li class="breadcrumb-item active" aria-current="page">لیست</li>
+
+        </ol>
+    </div>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong class="text-info">معلومات!</strong> @TempData["Message"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    }
+
+
+
+    <div class="card-body">
+        <div class="text-center"> <h5 class="card-title">لیست کنفرانس ها</h5></div>
+        <div class="btn-group" role="group">
+            <a class="btn btn-secondary" asp-action="List" asp-controller="ConferenceRoom"><span>انجام نشده</span></a>
+            <a class="btn btn-secondary" asp-action="ListExit" asp-controller="ConferenceRoom"><span>انجام شده</span></a>
+            <a class="btn btn-secondary" asp-action="Add" asp-controller="ConferenceRoom"><span class="ml-1 item-text fa fa-lightbulb-o"><span class="fa fa-plus"></span> جدید</span></a>
+        </div>
+        <table class="table table-hover table-hover">
+            <thead>
+                <tr>
+                    <th>شماره</th>
+                    <th>نام سازمان</th>
+                    <th>تماس</th>
+                    <th>تاریخ</th>
+                    <th>زمان شروع</th>
+                    <th>زمان ختم</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{int counter = 1; }
+                @foreach (var emp in Model.ConferenceList)
+                {
+                    <tr>
+                        <td>@counter</td>
+                        <td>@emp.OrganizationName</td>
+                        <td>@emp.contact</td>
+                        <td>@(new ShamisDateTime.PersianDateTime(emp.Date).ToShortDateString())</td>
+                        <td>@emp.StartTimeString</td>
+                        <td>@emp.EndTimeString</td>
+                        <td>
+                            <a asp-action="Edit" asp-controller="ConferenceRoom" asp-route-id="@emp.ConferenceRoomId"><i class="fe fe-16 fe-edit"></i></a>
+                            <a asp-action="Delete" asp-controller="ConferenceRoom" asp-route-id="@emp.ConferenceRoomId" onclick="return confirm('حذف شود؟')"><i class="fe fe-16 fe-trash-2 text-danger"></i></a>
+                            <a asp-action="OrderList" asp-controller="ConferenceRoom" asp-route-id="@emp.ConferenceRoomId" title="نمایش سفارش"><i class="fe fe-16 fe-eye" style="color:aqua"></i></a>
+                            <a asp-action="PrintBill" asp-controller="ConferenceRoom" asp-route-id="@emp.ConferenceRoomId" title="چاپ فاکتور"><i class="fe fe-16 fe-printer" style="color:aqua"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

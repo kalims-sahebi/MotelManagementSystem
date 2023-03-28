@@ -1,0 +1,60 @@
+﻿@model ExpensesModel
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">مصارف</li>
+            <li class="breadcrumb-item active" aria-current="page">افزودن</li>
+
+        </ol>
+    </div>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong class="text-info">معلومات!</strong> @TempData["Message"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    }
+
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <strong class="card-title"> مصارف</strong>
+        </div>
+        <div class="card-body">
+            <form method="post" asp-action="Add" asp-controller="Expenses">
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label asp-for="@Model.Description"></label>
+                        <input asp-for="@Model.Description" name="Description" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.Amount"></label>
+                        <input asp-for="@Model.Amount" name="Amount" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="@Model.Amount" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.DateString"></label>
+                        <input name="DateString" type="text" class="form-control shamsi-date-picker" autocomplete="off" />
+                        <span asp-validation-for="@Model.DateString" class="text-danger"></span>
+                    </div>
+                </div>
+                <div asp-validation-summary="All" class="text-danger">
+
+                </div>
+                <button type="submit" class="btn btn-primary fe fe-24 fe-save"> ثبت</button>
+                <a asp-action="List" asp-controller="Expenses" class="btn btn-danger fe fe-16 fe-x-square"> لغو</a>
+            </form>
+        </div>
+    </div>
+
+
+
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+                $("input.shamsi-date-picker").persianDatepicker({ showGregorianDate: !1 });
+            });
+        </script>
+    }

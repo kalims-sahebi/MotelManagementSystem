@@ -1,0 +1,94 @@
+﻿@model EmployeeViewModel
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">کارمند</li>
+            <li class="breadcrumb-item active" aria-current="page">ویرایش</li>
+
+        </ol>
+    </div>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong class="text-info">معلومات!</strong> @TempData["Message"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    }
+
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <strong class="card-title">ویرایش کارمند</strong>
+        </div>
+        <div class="card-body">
+            <form method="post" asp-action="Edit" asp-controller="Employee">
+                <div class="form-row">
+                    <input type="hidden" name="EmployeeId" value="@Model.EmployeeId" />
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.FullName"></label>
+                        <input asp-for="@Model.FullName" value="@Model.FullName" name="FullName" class="form-control" />
+                        <span asp-validation-for="@Model.FullName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.Address"></label>
+                        <input asp-for="@Model.Address" value="@Model.Address" name="Address" class="form-control" />
+                        <span asp-validation-for="@Model.Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.Phone"></label>
+                        <input asp-for="@Model.Phone" value="@Model.Phone" name="Phone" class="form-control" />
+                        <span asp-validation-for="@Model.Phone" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.DateString"></label>
+                        <input value="@Model.DateString" name="DateString" type="text" class="form-control shamsi-date-picker" autocomplete="off" />
+                        <span asp-validation-for="@Model.DateString" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.DutyId"></label>
+                        <select asp-items="@Model.Duty" name="DutyId" class="form-control"></select>
+                        <span asp-validation-for="@Model.DutyId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.EmployeeTypeId"></label>
+                        <select asp-items="@Model.EmployeeType" name="EmployeeTypeId" class="form-control"></select>
+                        <span asp-validation-for="@Model.EmployeeTypeId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.OtherBenefit"></label>
+                        <input asp-for="@Model.OtherBenefit" value="@Model.OtherBenefit" name="OtherBenefit" class="form-control" />
+                        <span asp-validation-for="@Model.OtherBenefit" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.Balance"></label>
+                        <input value="@Model.Balance" name="Balance" class="form-control" />
+                        <span asp-validation-for="@Model.Balance" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.MonthlySalary"></label>
+                        <input type="text" value="@Model.MonthlySalary" name="MonthlySalary" class="form-control" />
+                        <span asp-validation-for="@Model.MonthlySalary" class="text-danger"></span>
+                    </div>
+                    <div asp-validation-summary="All" class="text-danger">
+
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary fe fe-24 fe-save"> ثبت</button>
+                <a asp-action="List" asp-controller="Employee" class="btn btn-danger fe fe-24 fe-x-square"> لغو</a>
+            </form>
+        </div>
+    </div>
+
+
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+                $("input.shamsi-date-picker").persianDatepicker({ showGregorianDate: !1 });
+            });
+
+        </script>
+    }

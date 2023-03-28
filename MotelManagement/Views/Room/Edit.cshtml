@@ -1,0 +1,77 @@
+﻿@model RoomModel
+
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">ویرایش</li>
+            <li class="breadcrumb-item active" aria-current="page">اتاق</li>
+
+        </ol>
+    </div>
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <strong class="card-title">اطاق جدید</strong>
+    </div>
+    <div class="card-body">
+        <form method="post" asp-action="Edit" asp-controller="Room">
+            <div class="form-row">
+                <input  type="hidden" value="@Model.RoomId" name="RoomId" />
+                <div class="form-group col-md-3">
+                    <label asp-for="@Model.RoomNumber"></label>
+                    <input asp-for="@Model.RoomNumber" value="@Model.RoomNumber" name="RoomNumber" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="@Model.RoomNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="@Model.IsEmpty"></label>
+                    <select name="IsEmpty" class="form-control">
+                        @if (@Model.IsEmpty == 0)
+                        {
+                            <option value="1">اختصاص شده</option>
+                            <option selected value="0">خالی</option>
+                        }
+                        else
+                        {
+                            <option selected value="1">اختصاص شده</option>
+                            <option  value="0">خالی</option>
+                        }
+                        
+                    </select>
+                    <span asp-validation-for="@Model.IsEmpty" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="@Model.RoomLocation"></label>
+                    <input asp-for="@Model.RoomLocation" value="@Model.RoomLocation" name="RoomLocation" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="@Model.RoomLocation" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="@Model.BedCount"></label>
+                    <input name="BedCount" value="@Model.BedCount" type="number" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="@Model.BedCount" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label asp-for="@Model.RoomTypeList"></label>
+                    <select asp-items="@Model.RoomTypeList" name="RoomTypeId" class="form-control"></select>
+                    <span asp-validation-for="@Model.RoomTypeList" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="@Model.RentPerNight"></label>
+                    <input asp-for="@Model.RentPerNight" value="@Model.RentPerNight" name="RentPerNight" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="@Model.RentPerNight" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div asp-validation-summary="All" class="text-danger">
+
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary fe fe-24 fe-save"> ثبت</button>
+            <a asp-action="List" asp-controller="Room" class="btn btn-danger fe fe-16 fe-x-square"> لغو</a>
+        </form>
+    </div>
+</div>
+
+
+
+

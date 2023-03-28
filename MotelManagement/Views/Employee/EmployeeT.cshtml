@@ -1,0 +1,216 @@
+﻿@model EmployeeTViewModel
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">کارمند</li>
+            <li class="breadcrumb-item active" aria-current="page">بردگی/رسیدگی</li>
+
+        </ol>
+    </div>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong class="text-info">معلومات!</strong> @TempData["Message"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    }
+
+    <!--if is going to update else is going to insert-->
+    @if (Model.EmployeeTransactionId != 0)
+    {
+        <div class="card">
+            <div class="card-title">
+                <h4 class="card-text">ویرایش بردگی/رسیدگی کارمندان</h4>
+            </div>
+            <div class="card-body ">
+                <form method="post" asp-controller="Employee" asp-action="EditT">
+                    <input type="hidden" name="EmployeeTransactionId" value="@Model.EmployeeTransactionId" />
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label asp-for="@Model.Employee"></label>
+                            <select asp-items="@Model.Employee" name="EmployeeId" class="form-control select2" id="simple-select2"></select>
+                            <span asp-validation-for="@Model.Employee" class="text-danger"></span>
+                        </div>
+
+
+                        @if (Model.inmoney > 0)
+                        {
+                            <div class="form-group col-md-3">
+                                <label asp-for="@Model.inOut"></label>
+                                <select name="inOut" class="form-control">
+                                    <option value="0">بردگی</option>
+                                    <option selected value="1">رسیدگی</option>
+                                </select>
+                                <span asp-validation-for="@Model.inOut" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label asp-for="@Model.Amount"></label>
+                                <input name="Amount" value="@Model.inmoney" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="@Model.Amount" class="text-danger"></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group col-md-3">
+                                <label asp-for="@Model.inOut"></label>
+                                <select name="inOut" class="form-control">
+                                    <option selected value="0">بردگی</option>
+                                    <option value="1">رسیدگی</option>
+                                </select>
+                                <span asp-validation-for="@Model.inOut" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label asp-for="@Model.Amount"></label>
+                                <input name="Amount" value="@Model.outmoney" class="form-control" autocomplete="off" />
+                                <span asp-validation-for="@Model.Amount" class="text-danger"></span>
+                            </div>
+                        }
+                        <div class="form-group col-md-3">
+                            <label asp-for="@Model.DateString"></label>
+                            <input name="DateString" value="@Model.DateString" type="text" class="form-control shamsi-date-picker" autocomplete="off" />
+                            <span asp-validation-for="@Model.DateString" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label asp-for="@Model.Description"></label>
+                            <input name="Description" value="@Model.Description" class="form-control" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <button type="submit" class="btn btn-primary fe fe-16 fe-save"> ثبت</button>
+                        <a asp-action="EmployeeT" asp-controller="Employee" class="btn btn-danger fe fe-16 fe-x-square"> لغو</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-title">
+                <h4 class="card-text">ثبت بردگی و رسیدگی کارمندان</h4>
+            </div>
+            <div class="card-body ">
+                <form method="post" asp-controller="Employee" asp-action="EmployeeT">
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label asp-for="@Model.Employee"></label>
+                            <select asp-items="@Model.Employee" name="EmployeeId" class="form-control select2" id="simple-select2"></select>
+                            <span asp-validation-for="@Model.Employee" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="@Model.inOut"></label>
+                            <select name="inOut" class="form-control">
+                                <option value="0">بردگی</option>
+                                <option value="1">رسیدگی</option>
+                            </select>
+                            <span asp-validation-for="@Model.inOut" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="@Model.Amount"></label>
+                            <input name="Amount" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="@Model.Amount" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="@Model.DateString"></label>
+                            <input name="DateString" type="text" class="form-control shamsi-date-picker" autocomplete="off" />
+                            <span asp-validation-for="@Model.DateString" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label asp-for="@Model.Description"></label>
+                            <input name="Description" class="form-control" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <button type="submit" class="btn btn-primary fe fe-16 fe-save"> ثبت</button>
+                        <a asp-action="EmployeeT" asp-controller="Employee" class="btn btn-danger fe fe-16 fe-save fe fe-16 fe-x-square"> لغو</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+
+
+
+    <!--Data Table Starts-->
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <h4 class="mb-2 page-title">لیست بردگی/رسیدگی</h4>
+                <div class="row my-4">
+                    <!-- Small table -->
+                    <div class="col-md-12">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <!-- table -->
+                                <table class="table datatables" id="dataTable-1">
+                                    <thead>
+                                        <tr>
+                                            <th>شماره</th>
+                                            <th>نام</th>
+                                            <th>بردگی</th>
+                                            <th>رسیدگی</th>
+                                            <th>بیلانس</th>
+                                            <th>توضیح</th>
+                                            <th>تاریخ</th>
+                                            <th>عملیات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{int counter = 1; }
+                                        @foreach (var item in Model.TList)
+                                        {
+                                            <tr>
+                                                <td>@counter</td>
+                                                <td>@item.FullName</td>
+                                                <td>@item.outmoney</td>
+                                                <td>@item.inmoney</td>
+                                                <td>@item.Balance</td>
+                                                <td>@item.Description</td>
+                                                <td>@(new ShamisDateTime.PersianDateTime(item.Date).ToShortDateString())</td>
+                                                <td>
+                                                    <a asp-action="EditT" asp-controller="Employee" asp-route-id="@item.EmployeeTransactionId"><i class="fe fe-16 fe-edit"></i></a>
+                                                    <a asp-action="DeleteT" asp-controller="Employee" asp-route-id="@item.EmployeeTransactionId" onclick="return confirm('حذف این مورد بر موجودی صندق و بیلانس این کارمند تاثیر دارد ادامه میدهید؟')"><i class="fe fe-16 fe-trash-2 text-danger"></i></a>
+                                                </td>
+                                                @{counter++; }
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div> <!-- simple table -->
+                </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+        </div> <!-- .row -->
+    </div>
+
+
+
+
+
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+                $("input.shamsi-date-picker").persianDatepicker({ showGregorianDate: !1 });
+            });
+        </script>
+
+        <script src='~/js/jquery.dataTables.min.js'></script>
+        <script src='~/js/dataTables.bootstrap4.min.js'></script>
+        <script>
+            $('#dataTable-1').DataTable(
+                {
+                    autoWidth: true,
+                    "lengthMenu": [
+                        [16, 32, 64, -1],
+                        [16, 32, 64, "All"]
+                    ]
+                });
+        </script>
+    }

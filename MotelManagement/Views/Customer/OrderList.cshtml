@@ -1,0 +1,127 @@
+﻿@*@model OrderRemoveViewModel
+
+
+
+    <div class="card">
+        <div class="card-header">
+            @if(TempData["Message"] != null)
+            {
+            <h3>نمایش سفارشات:@TempData["Message"]</h3>
+            }
+
+        </div>
+        <div class="card-body">
+            <table class="table datatables" id="dataTable-1">
+                <thead>
+                    <tr>
+                        <th>شماره</th>
+                        <th>غذا</th>
+                        <th>تعداد</th>
+                        <th>نوشیدنی</th>
+                        <th>تعداد</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int counter = 1; }
+                    @foreach (var emp in Model.RemoveOrder)
+                    {
+                        <tr>
+                            <td>@counter</td>
+                            <td>@emp.Food</td>
+                            <td>@emp.FoodCount</td>
+                            <td>@emp.Drink</td>
+                            <td>@emp.DrinkCount</td>
+                            <td>
+                                <a asp-action="DeleteOrder" asp-controller="Customer" asp-route-id="@emp.OrderId" onclick="return confirm('حذف شود؟')"><i class="fe fe-16 fe-trash-2 text-danger"></i></a>
+                            </td>
+                        </tr>
+                        { counter++; }
+                    }
+                </tbody>
+            </table>
+        </div>
+            <a asp-action="List" asp-controller="Customer" class="btn btn-secondary" ><i class="fe fe-16 fe-corner-up-left">  برگشت</i></a>
+    </div>*@
+
+
+@model BillViewModel
+
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">مهمان</li>
+            <li class="breadcrumb-item active" aria-current="page">لیست سفارشات</li>
+
+        </ol>
+    </div>
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            @if (TempData["Message"] != null)
+            {
+                <h3>نمایش سفارشات:@TempData["Message"]</h3>
+            }
+
+        </div>
+        <div class="card-body">
+            <table class="table datatables" id="dataTable-1">
+                <thead>
+                    <tr>
+                        <th scope="col">شماره</th>
+                        <th scope="col">تفصیلات</th>
+                        <th scope="col" class="text-right">فی</th>
+                        <th scope="col" class="text-right">تعداد</th>
+                        <th scope="col" class="text-right">کل</th>
+                        <th scope="col" class="text-center">عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int counter = 1;
+                        int Gtotal = 0;
+                    }
+                    @foreach (var item in Model.FoodBill)
+                    {
+                        <tr>
+                            <th scope="row">@counter</th>
+                            <td>@item.Description</td>
+                            <td class="text-right">@item.Price</td>
+                            <td class="text-right">@item.qty</td>
+                            <td class="text-right">@item.total</td>
+                            <td class="text-center">
+                                <a asp-action="DeleteOrder" asp-controller="Customer" asp-route-id="@item.OrderId" onclick="return confirm('تمام اقلام این سفارش حذف شود؟')"><i class="fe fe-16 fe-trash-2 text-danger"></i></a>
+                            </td>
+
+                        </tr>
+                        Gtotal += item.total;
+                        counter++;
+                    }
+                    @foreach (var item in Model.DrinkBill)
+                    {
+                        <tr>
+                            <th scope="row">@counter</th>
+                            <td>@item.Description</td>
+                            <td class="text-right">@item.Price</td>
+                            <td class="text-right">@item.qty</td>
+                            <td class="text-right">@item.total</td>
+                            <td class="text-center">
+                                <a asp-action="DeleteOrder" asp-controller="Customer" asp-route-id="@item.OrderId" onclick="return confirm('تمام اقلام این سفارش حذف شود؟')"><i class="fe fe-16 fe-trash-2 text-danger"></i></a>
+                            </td>
+                        </tr>
+                        Gtotal += item.total;
+                        counter++;
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="text-danger">
+                        <th colspan="5">جمع کل</th>
+                        <th class="text-center">@Gtotal</th>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+        <a asp-action="List" asp-controller="Customer" class="btn btn-secondary"><i class="fe fe-16 fe-corner-up-left">  برگشت</i></a>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+﻿@model PrintConferenceByNumberModel
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">اتاق کنفرانس</li>
+            <li class="breadcrumb-item active" aria-current="page">چاپ بل بر اساس شماره</li>
+
+        </ol>
+    </div>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong class="text-info">معلومات!</strong> @TempData["Message"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    }
+
+    <div class="card">
+        <h3 class="card-title">چاپ بل براساس شماره تماس</h3>
+        <div class="card-body">
+            <form method="post" asp-action="PrintByNumber" asp-controller="ConferenceRoom">
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <label asp-for="@Model.Contact"></label>
+                        <input asp-for="@Model.Contact" name="Contact" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="@Model.Contact" class="text-danger"></span>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary fe fe-24 fe-save" value="جستجو" />
+            </form>
+        </div>
+    </div>

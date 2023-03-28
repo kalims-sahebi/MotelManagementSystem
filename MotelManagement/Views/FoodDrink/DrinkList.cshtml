@@ -1,0 +1,64 @@
+﻿@model FoodDrinkModel
+<div class="slim-pageheader pd-10">
+    <ol class="breadcrumb slim-breadcrumb">
+        <li class="breadcrumb-item active">نوشیدنی</li>
+        <li class="breadcrumb-item active" aria-current="page">لیست</li>
+
+    </ol>
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong class="text-info">معلومات!</strong> @TempData["Message"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+}
+
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <h4 class="mb-2 page-title">لیست نوشیدنی</h4>
+        <div class="col-12">
+            <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <!-- table -->
+                            <table class="table datatables" id="dataTable-1">
+                                <thead>
+                                    <tr>
+                                        <th>شماره</th>
+                                        <th>نام</th>
+                                        <th>قیمت</th>
+                                        <th>عملیات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int counter = 1; }
+                                    @foreach (var item in Model.List)
+                                    {
+                                        <tr>
+                                            <td style="display:none">@item.Id</td>
+                                            <td>@counter</td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Price</td>
+                                            <td>
+                                                <a asp-action="DeleteDrink" asp-controller="FoodDrink" asp-route-id="@item.Id" title="حذف" onclick="return confirm('حذف شود؟')"><i class="fe fe-16 fe-trash-2 text-danger"></i></a>
+                                            </td>
+
+                                            @{counter++; }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> <!-- simple table -->
+            </div> <!-- end section -->
+        </div> <!-- .col-12 -->
+    </div> <!-- .row -->
+</div>

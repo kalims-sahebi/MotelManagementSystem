@@ -1,0 +1,371 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>سیستم مدیریت هوتل بوستان</title>
+    <!-- Simple bar CSS -->
+    <link rel="stylesheet" href="~/css/simplebar.css">
+    <meta http-equiv="X-UA-Compatible" content="edge=chrome" />
+    <!-- My Custome Files -->
+    <link href="~/plugins/shamsidatepicker/datepicker.css" rel="stylesheet" />
+    <link href="~/css/Custome.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/lib/Ionicons/css/ionicons.css" rel="stylesheet" />
+    <link href="~/fonts/vazir/vazir.css" rel="stylesheet" />
+    <!-- Icons CSS -->
+    <link href="~/css/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/jquery.timepicker.css">
+    <link rel="stylesheet" href="~/css/feather.css">
+    <link rel="stylesheet" href="~/css/select2.css">
+    <link rel="stylesheet" href="~/css/dropzone.css">
+    <link rel="stylesheet" href="~/css/uppy.min.css">
+    <link rel="stylesheet" href="~/css/jquery.steps.css">
+    <link rel="stylesheet" href="~/css/jquery.timepicker.css">
+    <link rel="stylesheet" href="~/css/quill.snow.css">
+    <!-- Date Range Picker CSS -->
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <!-- App CSS -->
+    <link rel="stylesheet" href="~/css/app-light.css" id="lightTheme" disabled>
+    <link rel="stylesheet" href="~/css/app-dark.css" id="darkTheme">
+</head>
+<body class="vertical  dark rtl ">
+    <div class="wrapper">
+        <nav class="topnav navbar navbar-light">
+            <button id="togglerButton" type="button" class="navbar-toggler text-muted mt-2 p-0 mr-3 collapseSidebar">
+                <i class="fe fe-menu navbar-toggler-icon"></i>
+            </button>
+            <div class="form-inline mr-auto  text-muted">
+                <h3>سیستم مدیریت هوتل بوستان</h3>
+            </div>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link text-muted my-2" href="#" id="modeSwitcher" data-mode="dark">
+                        <i class="fe fe-sun fe-16"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-muted my-2" href="#" title="میانبر ها" data-toggle="modal" data-target=".modal-shortcut">
+                        <span class="fe fe-grid fe-16"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-muted my-2" title="خانه" asp-action="Index" asp-controller="Home">
+                        <i class="fe fe-home fe-16"></i>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="avatar avatar-sm mt-2">
+                            @User.Identity.Name
+                            <img src="~/assets/avatars/face-1.jpg" alt="..." class="avatar-img rounded-circle">
+                        </span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item fe fe-16 fe-log-out" asp-action="Logout" asp-controller="Account">خروج از سیستم</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <aside class="sidebar-left border-right bg-white shadow" id="leftSidebar" data-simplebar>
+            <a href="#" class="btn collapseSidebar toggle-btn d-lg-none text-muted ml-2 mt-3" data-toggle="toggle">
+                <i class="fe fe-x"><span class="sr-only"></span></i>
+            </a>
+            <nav class="vertnav navbar navbar-light">
+                <!-- nav bar -->
+                <div class="w-100 mb-4 d-flex text-center">
+                    <img id="logo" src="~/assets/Logo/logo-sm-02.png" width="170" height="130" />
+                </div>
+                <ul class="navbar-nav flex-fill w-100 mb-2">
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li class="nav-item dropdown">
+                            <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fa fa-2x fa-home"></i>
+                                <span class="ml-3 item-text">داشبورد</span><span class="sr-only">(current)</span>
+                            </a>
+
+                            <ul class="collapse list-unstyled pl-4 w-100" id="dashboard">
+                                <li class="nav-item active text-center">
+                                    <p class="text-muted nav-heading mt-4 mb-1">
+                                        <span></span>
+                                    </p>
+                                </li>
+                                @*Sub Menu*@
+                                <li>
+                                    <ul class="navbar-nav flex-fill w-100 mb-2">
+                                        <li class="nav-item dropdown">
+                                            <a href="#expense" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                                <i class="fe fe-tool fe-16"></i>
+                                                <span class="ml-3 item-text">مصارف و ترمیم</span>
+                                            </a>
+                                            <ul class="collapse list-unstyled pl-4 w-100" id="expense">
+                                                <li class="nav-item active">
+                                                    <a class="nav-link pl-3" asp-action="Add" asp-controller="Expenses"><span class="ml-1 item-text fe fe-tool fe-plus fe-16">   افزودن به مصارف</span></a>
+                                                </li>
+
+                                                <li class="nav-item active">
+                                                    <a class="nav-link pl-3" asp-action="List" asp-controller="Expenses"><span class="ml-1 item-text fe fe-16 fe-file-text"> لیست مصارف</span></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <ul class="navbar-nav flex-fill w-100 mb-2">
+                                        <li class="nav-item dropdown">
+                                            <a href="#safe" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                                <i class="fe fe-briefcase fe-16"></i>
+                                                <span class="ml-3 item-text">صندق پول</span>
+                                            </a>
+                                            <ul class="collapse list-unstyled pl-4 w-100" id="safe">
+                                                @*<li class="nav-item active">
+                            <a class="nav-link pl-3" asp-action="" asp-controller=""><span class="ml-1 item-text fe fe-16 fe-trending-up"> آمار پول نقد</span></a>
+                        </li>
+                                                *@
+                                                <li class="nav-item active">
+                                                    <a class="nav-link pl-3" asp-action="Status" asp-controller="Safe"><span class="ml-1 item-text fe fe-16 fe-check-square"> توازن صندق پول نقد</span></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <ul class="navbar-nav flex-fill w-100 mb-2">
+                                        <li class="nav-item dropdown">
+                                            <a href="#users" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                                <i class="fe fe-users fe-16"></i>
+                                                <span class="ml-3 item-text">مدیریت یوزر ها</span>
+                                            </a>
+                                            <ul class="collapse list-unstyled pl-4 w-100" id="users">
+
+                                                @* <li class="nav-item active">
+                            <a class="nav-link pl-3" asp-action="CreateRole" asp-controller="Administration"><span class="ml-1 item-text fe fe-16 fe-plus-circle"> ایجاد رول</span></a>
+                        </li>*@
+                                                <li class="nav-item">
+                                                    <a class="nav-link pl-3" asp-action="ListRoles" asp-controller="Administration"><span class="ml-1 item-text fe fe-16 fe-file-text"> لیست رول</span></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link pl-3" asp-action="Register" asp-controller="Account"><span class="ml-1 item-text fe fe-16 fe-user"> ثبت یوزر جدید</span></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                @*Sub Menu*@
+                                <li>
+                                    <ul class="navbar-nav flex-fill w-100 mb-2">
+                                        <li class="nav-item dropdown">
+                                            <a href="#staff" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                                <i class="fe fe-pocket fe-16"></i>
+                                                <span class="ml-3 item-text"> مدیریت کارمندان</span>
+                                            </a>
+                                            <ul class="collapse list-unstyled pl-4 w-100" id="staff">
+                                                <li class="nav-item active">
+                                                    <a class="nav-link pl-3" asp-action="Add" asp-controller="Employee"><span class="ml-1 item-text fe fe-16 fe-user-plus"> کارمند جدید</span></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link pl-3" asp-action="List" asp-controller="Employee"><span class="ml-1 item-text fe fe-16 fe-file-text"> لیست کارمندان</span></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link pl-3" asp-action="EmployeeT" asp-controller="Employee"><span class="ml-1 item-text fe fe-16 fe-dollar-sign"> بردگی کارمندان </span></a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <ul class="navbar-nav flex-fill w-100 mb-2">
+                                        <li class="nav-item dropdown">
+                                            <a href="#drinks" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                                <i class="fe fe-coffee fe-16"></i>
+                                                <span class="ml-3 item-text">نوشیدنی و غذا</span>
+                                            </a>
+                                            <ul class="collapse list-unstyled pl-4 w-100" id="drinks">
+                                                <li class="nav-item active">
+                                                    <a class="nav-link pl-3" asp-action="Add" asp-controller="FoodDrink"><span class="ml-1 item-text fe fe-16 fe-plus-circle"> افزودن</span></a>
+                                                </li>
+                                                @*<li class="nav-item active">
+                                                    <a class="nav-link pl-3" asp-action="DrinkList" asp-controller="FoodDrink"><span class="ml-1 item-text fe fe-16 fe-file-text"> لیست نوشیدنی</span></a>
+                                                    <a class="nav-link pl-3" asp-action="FoodList" asp-controller="FoodDrink"><span class="ml-1 item-text fe fe-16 fe-file-text"> لیست غذا</span></a>
+                                                </li>*@
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+
+                </ul>
+                <ul class="navbar-nav flex-fill w-100 mb-2">
+                    <li class="nav-item dropdown">
+                        <a href="#ui-elements" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                            <i class="fe fe-24 fe-user"></i>
+                            <span class="ml-3 item-text">مهمانان</span>
+                        </a>
+                        <ul class="collapse list-unstyled pl-4 w-100" id="ui-elements">
+
+                            <li class="nav-item active">
+                                <a class="nav-link pl-3" asp-action="Add" asp-controller="Customer"><span class="ml-1 item-text fe fe-16 fe-user-plus"> جدید</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link pl-3" asp-action="List" asp-controller="Customer"><span class="ml-1 item-text fe fe-16 fe-file-text"> لیست مهمانان</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link pl-3" asp-action="PrintByNumber" asp-controller="Customer"><span class="ml-1 item-text fe fe-16 fe-printer"> چاپ فاکتور</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="navbar-nav flex-fill w-100 mb-2">
+                    <li class="nav-item dropdown">
+                        <a href="#guests" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                            <i class="fa fa-2x fa-hotel"></i>
+                            <span class="ml-3 item-text">اتاق ها</span>
+                        </a>
+                        <ul class="collapse list-unstyled pl-4 w-100" id="guests">
+
+                            <li class="nav-item active">
+                                <a class="nav-link pl-3" asp-action="Add" asp-controller="Room"><span class="ml-1 item-text fe fe-16 fe-key"> جدید</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link pl-3" asp-action="List" asp-controller="Room"><span class="ml-1 item-text fe fe-16 fe-file-text"> لیست اتاق ها</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link pl-3" asp-action="PrintByRoom" asp-controller="Customer"><span class="ml-1 item-text fe fe-16 fe-printer"> چاپ فاکتور</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="navbar-nav flex-fill w-100 mb-2">
+                    <li class="nav-item dropdown">
+                        <a href="#conferenceRoom" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                            <i class="fa fa-2x fa-lightbulb-o"></i>
+                            <span class="ml-3 item-text"> اتاق کنفرانس</span>
+                        </a>
+                        <ul class="collapse list-unstyled pl-4 w-100" id="conferenceRoom">
+
+                            <li class="nav-item active">
+                                <a class="nav-link pl-3" asp-action="Add" asp-controller="ConferenceRoom"><span class="ml-1 item-text fa fa-lightbulb-o"><span class="fa fa-plus"></span> جدید</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link pl-3" asp-action="List" asp-controller="ConferenceRoom"><span class="ml-1 item-text fe fe-16 fe-file-text"> لیست کنفرانس ها</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link pl-3" asp-action="PrintByNumber" asp-controller="ConferenceRoom"><span class="ml-1 item-text fe fe-16 fe-printer"> چاپ فاکتور</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="navbar-nav flex-fill w-100 mb-2">
+                    <li class="nav-item dropdown">
+                        <a href="#reports" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                            <i class="fa fa-2x fa-line-chart"></i>
+                            <span class="ml-3 item-text">راپور ها</span>
+                        </a>
+                        <ul class="collapse list-unstyled pl-4 w-100" id="reports">
+
+                            <li class="nav-item active">
+                                <a class="nav-link pl-3" asp-action="Weekly" asp-controller="Report"><span class="ml-1 item-text fe fe-16 fe-file-text"> راپور مالی هفته وار</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link pl-3" asp-action="Monthly" asp-controller="Report"><span class="ml-1 item-text fe fe-16 fe-file-text"> راپور مالی ماه وار</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main role="main" class="main-content mainDiv">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-12 ">
+                        <div class="align-items-center">
+                            <div class="card ">
+
+                               @* <div class="slim-pageheader pd-10">
+                                    <ol class="breadcrumb slim-breadcrumb">
+                                        <li class="breadcrumb-item active" aria-current="page">@ViewContext.RouteData.Values["action"].ToString()</li>
+                                        <li class="breadcrumb-item">@ViewContext.RouteData.Values["controller"].ToString()</li>
+                                    </ol>
+                                </div>*@
+
+                                <div class="card-body">
+                                    @RenderBody()
+                                </div> <!-- .card-body -->
+                            </div> <!-- .card -->
+                        </div>
+                    </div> <!-- .col-12 -->
+                </div> <!-- .row -->
+            </div> <!-- .container-fluid -->
+        </main> <!-- main -->
+        @await Html.PartialAsync("ShortcutBar")
+    </div> <!-- .wrapper -->
+
+    <div class="footer text-center">
+        <div class="container">
+            <p>Copyright @DateTime.Now.Year &copy; All Rights Reserved Developed by: <a href="#"> Kalim at Ghalib University</a></p>
+        </div><!-- container -->
+    </div><!-- slim-footer -->
+
+
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/tinycolor-min.js"></script>
+    <script src='~/js/jquery.timepicker.js'></script>
+    <script src='~/js/jquery.stickOnScroll.js'></script>
+    <script src="~/js/Chart.min.js"></script>
+    <script src="~/plugins/shamsidatepicker/datepicker.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/simplebar.min.js"></script>
+    <script src="~/js/config.js"></script>
+    <script src="~/js/d3.min.js"></script>
+    <script src="~/js/topojson.min.js"></script>
+    <script src="~/js/datamaps.all.min.js"></script>
+    <script src="~/js/datamaps-zoomto.js"></script>
+    <script src="~/js/datamaps.custom.js"></script>
+    <script src="~/js/Chart.min.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/js/gauge.min.js"></script>
+    <script src="~/js/jquery.sparkline.min.js"></script>
+    <script src="~/js/apexcharts.min.js"></script>
+    <script src="~/js/apexcharts.custom.js"></script>
+    <script src='~/js/jquery.mask.min.js'></script>
+    <script src='~/js/select2.min.js'></script>
+    <script src='~/js/jquery.steps.min.js'></script>
+    <script src='~/js/jquery.validate.min.js'></script>
+    <script src="~/js/apps.js"></script>
+
+
+    <script>
+        $('.select2').select2(
+            {
+                theme: 'bootstrap4',
+            });
+        $('.select2-multi').select2(
+            {
+                multiple: true,
+                theme: 'bootstrap4',
+            });
+
+        $('Button#togglerButton').click(function () {
+            $('Img#logo').fadeToggle();
+        });
+
+        /* defind global options */
+        Chart.defaults.global.defaultFontFamily = base.defaultFontFamily;
+        Chart.defaults.global.defaultFontColor = colors.mutedColor;
+    </script>
+
+    @RenderSection("scripts", false)
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+﻿<html>
+<head>
+    <style>
+        a{
+            text-decoration:none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="defaultModalLabel">میانبرها</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body px-5">
+                    <div class="row align-items-center">
+                        <div class="col-6 text-center">
+                            <a class="squircle bg-success justify-content-center" asp-action="Add" asp-controller="Customer">
+                                <i class="fe fe-user-plus fe-32 align-self-center text-white"></i>
+                            </a>
+                            <p>مهمان جدید</p>
+                        </div>
+                        <div class="col-6 text-center">
+                            <a class="squircle bg-primary justify-content-center" asp-action="Add" asp-controller="ConferenceRoom">
+                                <i class=" fa fa-2x fa-plus  align-self-center text-white"><span class="fa fa-2x fa-lightbulb-o"></span></i>
+                            </a>
+                            <p>کانفرانس جدید</p>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-6 text-center">
+                            <a class="squircle bg-primary justify-content-center" asp-action="PrintByRoom" asp-controller="Customer">
+                                <i class="fe fe-printer fe-32 align-self-center text-white"></i>
+                            </a>
+                            <p>چاپ فاکتور</p>
+                        </div>
+                        <div class="col-6 text-center">
+                            <a class="squircle bg-primary justify-content-center" asp-action="List" asp-controller="Room">
+                                <i class="fe fe-list fe-32 align-self-center text-white"></i>
+                            </a>
+                            <p>لیست اتاق ها</p>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-6 text-center">
+                            <a class="squircle bg-primary justify-content-center" asp-action="Monthly" asp-controller="Report">
+                                <i class="fe fe-trending-up fe-32 align-self-center text-white"></i>
+                            </a>
+                            <p>راپور</p>
+                        </div>
+                        <div class="col-6 text-center">
+                            <a class="squircle bg-primary justify-content-center" asp-action="Logout" asp-controller="Account">
+                                <i class="fe fe-log-out fe-32 align-self-center text-white"></i>
+                            </a>
+                            <p>خروج</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

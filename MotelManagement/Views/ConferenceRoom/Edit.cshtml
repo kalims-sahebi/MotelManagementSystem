@@ -1,0 +1,90 @@
+﻿@model ConferenceRoomModel
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">اتاق کنفرانس</li>
+            <li class="breadcrumb-item active" aria-current="page">ویرایش</li>
+
+        </ol>
+    </div>
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <strong class="card-title"> ویرایش کانفرانس</strong>
+        </div>
+        <div class="card-body">
+            <form method="post" asp-action="Edit" asp-controller="ConferenceRoom">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.OrganizationName"></label>
+                        <input asp-for="@Model.OrganizationName" value="@Model.OrganizationName" name="OrganizationName" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="@Model.OrganizationName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.Address"></label>
+                        <input asp-for="@Model.Address" value="@Model.Address" name="Address" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="@Model.Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.contact"></label>
+                        <input asp-for="@Model.contact" value="@Model.contact" name="contact" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="@Model.contact" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.DateString"></label>
+                        <input asp-for="@Model.DateString" value="@Model.DateString" name="DateString" type="text" class="form-control shamsi-date-picker" autocomplete="off" />
+                        <span asp-validation-for="@Model.DateString" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.StartTime"></label>
+                        <input asp-for="@Model.StartTime" value="@Model.StartTimeString" type="text" name="StartTime" class="form-control time-input" autocomplete="off" />
+                        <span asp-validation-for="@Model.StartTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.EndTime"></label>
+                        <input asp-for="@Model.EndTime" value="@Model.EndTimeString" type="text" name="EndTime" class="form-control time-input " autocomplete="off" />
+                        <span asp-validation-for="@Model.EndTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.RefreshmentCost"></label>
+                        <input asp-for="@Model.RefreshmentCost" value="@Model.RefreshmentCost" name="RefreshmentCost" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="@Model.RefreshmentCost" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="@Model.RentPerHour"></label>
+                        <input asp-for="@Model.RentPerHour" value="@Model.RentPerHour" name="RentPerHour" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="@Model.RentPerHour" class="text-danger"></span>
+                    </div>
+                    <input type="hidden" name="ConferenceRoomId" value="@Model.ConferenceRoomId" />
+                </div>
+                <div class="form-row">
+                    <div asp-validation-summary="All" class="text-danger">
+
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary fe fe-24 fe-save"> ثبت</button>
+                <a asp-action="List" asp-controller="ConferenceRoom" class="btn btn-danger fe fe-16 fe-x-square"> لغو</a>
+            </form>
+        </div>
+    </div>
+
+
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+                $("input.shamsi-date-picker").persianDatepicker({ showGregorianDate: !1 });
+
+                $('.time-input').timepicker(
+                    {
+                        'scrollDefault': 'now',
+                        'zindex': '9999' /* fix modal open */
+                    }
+                );
+            });
+
+
+
+        </script>
+    }

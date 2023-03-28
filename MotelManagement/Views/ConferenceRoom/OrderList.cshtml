@@ -1,0 +1,49 @@
+﻿@model ConferenceBillViewModel
+    <div class="slim-pageheader pd-10">
+        <ol class="breadcrumb slim-breadcrumb">
+            <li class="breadcrumb-item active">اتاق کنفرانس</li>
+            <li class="breadcrumb-item active" aria-current="page">لیست سفارشات</li>
+
+        </ol>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                @if (TempData["Message"] != null)
+                {
+                    <h3>نمایش سفارشات :@TempData["Message"]</h3>
+                }
+
+            </div>
+            <div class="card-body">
+                <table class="table datatables" id="dataTable-1">
+                    <thead>
+                        <tr>
+                            <th scope="col">شماره</th>
+                            <th scope="col">تفصیلات</th>
+                            <th scope="col" class="text-right">زمان شروع</th>
+                            <th scope="col" class="text-right">زمان ختم</th>
+                            <th scope="col" class="text-right">مصارف قهوه</th>
+                            <th scope="col" class="text-right">کرایه فی ساعت</th>
+                            <th scope="col" class="text-right">ساعات</th>
+                            <th scope="col" class="text-right">کل</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>کرایه اتاق کنفرانس</td>
+                            <td class="text-right">@Model.StartTime</td>
+                            <td class="text-right">@Model.EndTime</td>
+                            <td class="text-right">@Model.RefreshmentCost</td>
+                            <td class="text-right">@Model.RentPerHour</td>
+                            <td class="text-right">@TempData["duration"]</td>
+                            <td class="text-right">@Model.total</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <a asp-action="List" asp-controller="ConferenceRoom" class="btn btn-secondary"><i class="fe fe-16 fe-corner-up-left">  برگشت</i></a>
+        </div>
+    </div>
